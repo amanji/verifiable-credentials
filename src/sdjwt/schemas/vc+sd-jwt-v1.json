@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://account.alberta.ca/dts/schemas/vc+sd-jwt-v1.json",
+    "title": "VC+SD-JWT Schema",
+    "description": "JSON Schema for VC+SD-JWT tokens with Type Profile",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "https://account.alberta.ca/dts/schemas/sd-jwt-v1.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "vct": {
+                    "description": "Type - must be URI format",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "cnf": {
+                    "type": "object",
+                    "description": "Confirmation Claim for Key-Binding - jwk or jkt",
+                    "properties": {
+                        "jwk": {
+                            "type": "object",
+                            "description": "Holder public key in JWK Format"
+                        },
+                        "jkt": {
+                            "type": "string",
+                            "description": "Key-Binding JWK Thumbprint"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "vct"
+            ]
+        }
+    ]
+}

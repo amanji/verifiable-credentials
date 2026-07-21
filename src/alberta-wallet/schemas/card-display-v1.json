@@ -1,0 +1,578 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://account.alberta.ca/dts/schemas/card-display-v1.json",
+  "title": "Wallet Card Display Template v1",
+  "description": "Schema for defining how a credential is rendered as a wallet card.",
+  "type": "object",
+  "required": [
+    "$schema",
+    "$id",
+    "display_template",
+    "schema_uri",
+    "card_title",
+    "text_color",
+    "top_left_icon",
+    "background",
+    "primary_field",
+    "card_overview",
+    "card_details_view",
+    "card_disclosures_view",
+    "field_definitions"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "$id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "display_template": {
+      "type": "string",
+      "description": "URN identifying the display template family/version"
+    },
+    "schema_uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON Schema that defines the credential payload"
+    },
+    "text_color": {
+      "$ref": "#/$defs/color"
+    },
+    "top_left_icon": {
+      "$ref": "#/$defs/image"
+    },
+    "top_right_image": {
+      "$ref": "#/$defs/image"
+    },
+    "bottom_right_image": {
+      "$ref": "#/$defs/image"
+    },
+    "card_title": {
+      "$ref": "#/$defs/literalValue"
+    },
+    "background": {
+      "$ref": "#/$defs/background"
+    },
+    "primary_field": {
+      "$ref": "#/$defs/displayFieldOrRef"
+    },
+    "secondary_field1": {
+      "$ref": "#/$defs/displayFieldOrRef"
+    },
+    "secondary_field2": {
+      "$ref": "#/$defs/displayFieldOrRef"
+    },
+    "secondary_field3": {
+      "$ref": "#/$defs/displayFieldOrRef"
+    },
+    "barcode": {
+      "$ref": "#/$defs/barcode"
+    },
+    "card_overview": {
+      "$ref": "#/$defs/cardOverview"
+    },
+    "card_details_view": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/displayFieldOrRef"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "card_disclosures_view": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disclosure_groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/disclosureGroup"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "field_definitions": {
+      "type": "object",
+      "description": "Named reusable field definitions. Each entry declares how to source and format a value — but NOT the label. Labels are supplied at the reference site so the same definition can appear as 'NAME' on the card face and 'Name' in the detail view.",
+      "additionalProperties": {
+        "$ref": "#/$defs/fieldDef"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "literalValue": {
+      "type": "string",
+      "description": "Fixed literal string displayed as-is"
+    },
+    "fieldDef": {
+      "type": "object",
+      "description": "Reusable value definition stored in field_definitions. Owns the value source and presentation format only — no label.",
+      "required": [
+        "label",
+        "value"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/valueSelector"
+            },
+            {
+              "$ref": "#/$defs/literalValue"
+            }
+          ]
+        },
+        "display_value": {
+          "description": "Overrides what is rendered on screen without changing the disclosed value.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/literalValue"
+            },
+            {
+              "$ref": "#/$defs/valueSelector"
+            }
+          ]
+        },
+        "presentation": {
+          "$ref": "#/$defs/presentation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "displayField": {
+      "type": "object",
+      "description": "A complete inline field. Use for one-off fields not worth adding to field_definitions.",
+      "required": [
+        "label",
+        "value"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/valueSelector"
+            },
+            {
+              "$ref": "#/$defs/literalValue"
+            }
+          ]
+        },
+        "display_value": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/literalValue"
+            },
+            {
+              "$ref": "#/$defs/valueSelector"
+            }
+          ]
+        },
+        "presentation": {
+          "$ref": "#/$defs/presentation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fieldRef": {
+      "type": "object",
+      "description": "A labeled reference to a named entry in field_definitions. Supply the label here; value binding and presentation come from the definition.",
+      "required": [
+        "label",
+        "field_ref"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "field_ref": {
+          "type": "string",
+          "description": "Must match a key in field_definitions"
+        }
+      },
+      "additionalProperties": false
+    },
+    "displayFieldOrRef": {
+      "description": "Either a fully inline field (label + value + optional presentation) or a labeled reference to a named field definition.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/displayField"
+        },
+        {
+          "$ref": "#/$defs/fieldRef"
+        }
+      ]
+    },
+    "sdField": {
+      "type": "object",
+      "description": "A selectively-disclosable field inside a disclosure group. Binds a field definition and a label to the SD-JWT claim paths it requires. All listed claims are disclosed together and rendered as one field.",
+      "required": [
+        "field_ref",
+        "label"
+      ],
+      "properties": {
+        "field_ref": {
+          "type": "string",
+          "description": "Key in field_definitions. Wallet should xref to the credential schema to confirm sd attribution"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "disclosureGroup": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "sd_fields"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "subtext": {
+          "type": "string"
+        },
+        "icon": {
+          "$ref": "#/$defs/image"
+        },
+        "sd_fields": {
+          "type": "array",
+          "description": "SD-JWT fields. Each binds a display definition and label to claim paths. All are disclosed when the group is shared.",
+          "items": {
+            "$ref": "#/$defs/sdField"
+          },
+          "minItems": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "default": "#000000"
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "alt_text": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "background": {
+      "type": "object",
+      "description": "Card background definition",
+      "oneOf": [
+        {
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": [
+            "image"
+          ],
+          "properties": {
+            "image": {
+              "$ref": "#/$defs/image"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "valueSelector": {
+      "oneOf": [
+        {
+          "description": "Single claim lookup",
+          "required": [
+            "key",
+            "key_target"
+          ],
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "key_target": {
+              "$ref": "#/$defs/keyTarget"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "Composite value assembled from multiple parts",
+          "required": [
+            "parts"
+          ],
+          "properties": {
+            "parts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/valuePart"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/computedKeySelector"
+        }
+      ]
+    },
+    "computedKeySelector": {
+      "type": "object",
+      "required": [
+        "key",
+        "key_target",
+        "compute"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "JSON Pointer or claim name"
+        },
+        "key_target": {
+          "$ref": "#/$defs/keyTarget"
+        },
+        "compute": {
+          "type": "string",
+          "enum": [
+            "document_status"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "valuePart": {
+      "oneOf": [
+        {
+          "required": [
+            "key",
+            "key_target"
+          ],
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "key_target": {
+              "$ref": "#/$defs/keyTarget"
+            },
+            "join": {
+              "type": "string",
+              "description": "Separator used when the claim value is an array"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": [
+            "literal"
+          ],
+          "properties": {
+            "literal": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "keyTarget": {
+      "type": "string",
+      "enum": [
+        "credential",
+        "credential_schema",
+        "entity_configuration",
+        "wallet_configuration",
+        "credential_sd_claim"
+      ]
+    },
+    "presentation": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "date",
+            "text",
+            "url",
+            "phn",
+            "email"
+          ]
+        },
+        "date_format": {
+          "type": "string",
+          "enum": [
+            "iso-8601",
+            "yyyy-mm-dd",
+            "yyyy-mm",
+            "mm-dd-yyyy",
+            "dd-mm-yyyy",
+            "long",
+            "medium",
+            "short",
+            "epoch"
+          ]
+        },
+        "bg_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "default": "#FFFFFF"
+        },
+        "text_color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "default": "#000000"
+        }
+      },
+      "additionalProperties": false
+    },
+    "barcode": {
+      "type": "object",
+      "required": [
+        "format"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "QRCode40"
+          ]
+        },
+        "keybinding": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "overviewSectionEntry": {
+      "type": "object",
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false
+    },
+    "overviewSection": {
+      "type": "object",
+      "required": [
+        "title",
+        "entries"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/overviewSectionEntry"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "cardOverview": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "subtitle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "card_image": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/image"
+            },
+            {
+              "type": "object",
+              "required": [
+                "sample_content_json"
+              ],
+              "properties": {
+                "sample_content_json": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "\\.json$"
+                },
+                "alt_text": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "sections": {
+          "type": "array",
+          "description": "Sections are rendered on the card overview page as links. Each section has a title and a list of entries.",
+          "items": {
+            "$ref": "#/$defs/overviewSection"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

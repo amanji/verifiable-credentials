@@ -1,0 +1,19 @@
+# Build output
+dist/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+.yarn/
+
+# Generated precompiled validators (built by scripts/precompile-validators.mjs)
+src/**/compiled/
+
+# Test coverage
+coverage/
+
+# Lockfile
+yarn.lock
+
+# JSON schemas (kept verbatim)
+src/**/schemas/*.json

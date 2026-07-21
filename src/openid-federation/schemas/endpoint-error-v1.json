@@ -1,0 +1,33 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://account.alberta.ca/dts/schemas/endpoint-error-v1.json",
+    "title": "OpenID Federation Endpoint Error",
+    "type": "object",
+    "required": [
+        "error",
+        "error_description"
+    ],
+    "properties": {
+        "error": {
+            "type": "string",
+            "enum": [
+                "invalid_request",
+                "server_error",
+                "temporarily_unavailable",
+                "invalid_client",
+                "invalid_issuer",
+                "invalid_subject",
+                "invalid_trust_anchor",
+                "invalid_trust_chain",
+                "invalid_metadata",
+                "not_found",
+                "unsupported_parameter"
+            ]
+        },
+        "error_description": {
+            "type": "string",
+            "minLength": 1
+        }
+    },
+    "additionalProperties": true
+}
