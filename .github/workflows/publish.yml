@@ -1,0 +1,86 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag to publish (e.g. v1.0.1). Defaults to latest release tag."
+        required: false
+
+permissions:
+  contents: read
+
+env:
+  CHECKOUT_REF: ${{ github.event.release.tag_name || inputs.tag || github.ref }}
+
+jobs:
+  ci:
+    name: CI - Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CHECKOUT_REF }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test --coverage
+
+      - name: Build package
+        run: yarn build
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  publish:
+    name: Publish
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CHECKOUT_REF }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to npm
+        run: |
+          yarn config set npmRegistryServer "https://registry.npmjs.org"
+          yarn config set npmAuthToken "${{ secrets.NPM_TOKEN }}"
+          yarn npm publish --access public
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        if: success()
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "## ✅ @abgov/verifiable-credentials@${VERSION} published" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry**: registry.npmjs.org" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag**: ${{ env.CHECKOUT_REF }}" >> $GITHUB_STEP_SUMMARY

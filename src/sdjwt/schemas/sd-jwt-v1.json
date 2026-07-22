@@ -1,0 +1,73 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://account.alberta.ca/dts/schemas/sd-jwt-v1.json",
+    "title": "SD-JWT Schema (RFC-9901)",
+    "description": "JSON Schema for SD-JWT tokens",
+    "type": "object",
+    "properties": {
+        "jti": {
+            "description": "Optional: JSON Web Token ID",
+            "type": "string"
+        },
+        "nbf": {
+            "description": "Optional: Not Before (Unix Epoch)",
+            "type": "integer"
+        },
+        "iss": {
+            "description": "Issuer URI",
+            "type": "string",
+            "format": "uri"
+        },
+        "iat": {
+            "description": "Required: Issued At (Unix Epoch)",
+            "type": "integer"
+        },
+        "sub": {
+            "description": "Subject Identifier",
+            "type": "string"
+        },
+        "exp": {
+            "description": "Optional: Expiry (Unix Epoch)",
+            "type": "integer"
+        },
+        "status": {
+            "description": "Optional: IETF Status List 2021",
+            "type": "object",
+            "properties": {
+                "status_list_uri": {
+                    "type": "string",
+                    "description": "URL of the status list"
+                },
+                "status_list_index": {
+                    "type": "integer",
+                    "description": "Index into the status list"
+                }
+            },
+            "required": [
+                "status_list_uri",
+                "status_list_index"
+            ],
+            "additionalProperties": false
+        },
+        "_sd": {
+            "description": "Array of selectively disclosed claim digests",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1
+        },
+        "_sd_alg": {
+            "description": "Hash algorithm used for SD-JWT disclosure digests",
+            "type": "string",
+            "enum": [
+                "sha-256"
+            ]
+        }
+    },
+    "required": [
+        "iss",
+        "iat"
+    ],
+    "additionalProperties": true
+}

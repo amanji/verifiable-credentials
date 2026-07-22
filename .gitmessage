@@ -1,0 +1,23 @@
+# type(scope): short description
+#
+# Types (choose one):
+#   fix      - bug fix             → patch release
+#   feat     - new feature         → minor release
+#   feat!    - breaking change     → major release
+#   chore    - maintenance/tooling → no release
+#   docs     - documentation       → no release
+#   refactor - restructure code    → no release
+#   test     - add/update tests    → no release
+#   style    - formatting only     → no release
+#   perf     - performance         → patch release
+#   ci       - CI/CD changes       → no release
+#   build    - build system        → no release
+#
+# scope is optional: fix(sdjwt): ...
+#
+# Breaking change — add ! or a BREAKING CHANGE footer:
+#   feat!: remove deprecated API
+#
+#   BREAKING CHANGE: description of what broke and migration path
+#
+# Closes #<issue>
