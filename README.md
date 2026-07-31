@@ -214,4 +214,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-ISC
+MIT License. See [LICENSE](./LICENSE) for details.
