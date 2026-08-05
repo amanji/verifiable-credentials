@@ -1,0 +1,472 @@
+{
+  "tool": "presidio-analyzer",
+  "spacy_model": "en_core_web_lg",
+  "score_threshold": 0.6,
+  "entities_requested": [
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER",
+    "US_SSN",
+    "CA_SIN",
+    "CREDIT_CARD",
+    "IBAN_CODE",
+    "IP_ADDRESS",
+    "CRYPTO",
+    "US_PASSPORT",
+    "US_DRIVER_LICENSE",
+    "MEDICAL_LICENSE",
+    "DATE_TIME",
+    "PERSON",
+    "LOCATION",
+    "NRP",
+    "URL"
+  ],
+  "files_listed": 78,
+  "files_scanned": 75,
+  "files_skipped": 3,
+  "total_findings": 3154,
+  "review_required_count": 34,
+  "by_entity": {
+    "URL": 1704,
+    "PERSON": 723,
+    "US_DRIVER_LICENSE": 289,
+    "LOCATION": 154,
+    "NRP": 139,
+    "DATE_TIME": 122,
+    "PHONE_NUMBER": 14,
+    "EMAIL_ADDRESS": 7,
+    "IP_ADDRESS": 2
+  },
+  "by_bucket": {
+    "generated": 1129,
+    "test-fixture": 1069,
+    "needs-review": 778,
+    "known-synthetic": 92,
+    "docs": 86
+  },
+  "by_tier": {
+    "noise_prone": 2720,
+    "high_precision": 434
+  },
+  "by_confidence": {
+    "low": 1728,
+    "high": 1426
+  },
+  "by_file": {
+    "src/sdjwt/decode.test.ts": 543,
+    "src/alberta-wallet/compiled/validate-credential-display.cjs": 535,
+    "src/openid-federation/compiled/validate-entity-statement.cjs": 288,
+    "src/openid-federation/discovery.test.ts": 179,
+    "src/openid-federation/discovery.ts": 155,
+    "src/sdjwt/decode.ts": 140,
+    "src/alberta-wallet/resolve.test.ts": 132,
+    "src/alberta-wallet/compiled/validate-alberta-credential-issuer.cjs": 119,
+    "src/sdjwt/compiled/validate-vc-sd-jwt.cjs": 108,
+    "src/sdjwt/proof/decode-ckapp.ts": 76,
+    "src/openid-federation/verification.ts": 68,
+    "src/openid-federation/test-utils.ts": 64,
+    "src/sdjwt/proof/decode-secure-qr.test.ts": 61,
+    "src/shared/test-helpers.ts": 53,
+    "scripts/precompile-validators.mjs": 52,
+    "README.md": 46,
+    "src/sdjwt/compiled/validate-sd-jwt.cjs": 46,
+    "src/alberta-wallet/reconstruct.test.ts": 43,
+    "src/sdjwt/proof/decode-ckapp.test.ts": 42,
+    "src/openid-federation/verification.test.ts": 41,
+    "src/alberta-wallet/resolve.ts": 34,
+    "src/openid-federation/compiled/validate-endpoint-error.cjs": 31,
+    "src/sdjwt/proof/decode-secure-qr.ts": 31,
+    "src/sdjwt/README.md": 28,
+    "src/sdjwt/types.ts": 27,
+    ".github/workflows/publish.yml": 22,
+    "src/shared/utilities.ts": 19,
+    "src/openid-federation/schemas/entity-statement-v1.json": 16,
+    "package.json": 13,
+    "src/sdjwt/schema-validator.ts": 12,
+    "src/alberta-wallet/reconstruct.ts": 11,
+    "eslint.config.js": 10,
+    "src/alberta-wallet/schemas/alberta-credential-issuer-v1.json": 10,
+    "src/alberta-wallet/schemas/card-display-v1.json": 9,
+    "src/alberta-wallet/types.ts": 9,
+    "src/openid-federation/README.md": 9,
+    "src/sdjwt/utilities.ts": 9,
+    "CONTRIBUTING.md": 6,
+    "src/openid-federation/types.ts": 6,
+    "src/sdjwt/schemas/sd-jwt-v1.json": 6,
+    ".github/workflows/release-please.yml": 5,
+    "src/sdjwt/schemas/vc+sd-jwt-v1.json": 5,
+    ".yarnrc.yml": 4,
+    "src/openid-federation/schemas/endpoint-error-v1.json": 4,
+    ".github/workflows/lint-pr-title.yml": 3,
+    "jest.config.js": 3,
+    "src/openid-federation/schema-validator.ts": 3,
+    "tsconfig.json": 3,
+    "release-please-config.json": 2,
+    "src/alberta-wallet/schema-validator.ts": 2,
+    "src/shared/noble.ts": 2,
+    ".gitignore": 1,
+    ".gitmessage": 1,
+    ".npmrc": 1,
+    ".prettierignore": 1,
+    ".prettierrc": 1,
+    "src/openid-federation/compiled/validators.d.ts": 1,
+    "src/sdjwt/compiled/validators.d.ts": 1,
+    "src/sdjwt/index.ts": 1,
+    "src/sdjwt/proof/types.ts": 1
+  },
+  "skipped": [
+    {
+      "file": ".yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs",
+      "reason": "too large (1074996 bytes)"
+    },
+    {
+      "file": ".yarn/plugins/@yarnpkg/plugin-version.cjs",
+      "reason": "too large (1073677 bytes)"
+    },
+    {
+      "file": "yarn.lock",
+      "reason": "denylisted filename"
+    }
+  ],
+  "review_required": [
+    {
+      "file": "eslint.config.js",
+      "line": 19,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "20**"
+    },
+    {
+      "file": "package.json",
+      "line": 60,
+      "entity_type": "DATE_TIME",
+      "score": 0.6,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "29*****"
+    },
+    {
+      "file": "scripts/precompile-validators.mjs",
+      "line": 36,
+      "entity_type": "IP_ADDRESS",
+      "score": 0.6,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "**"
+    },
+    {
+      "file": "src/alberta-wallet/resolve.ts",
+      "line": 61,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "va***********************************"
+    },
+    {
+      "file": "src/alberta-wallet/resolve.ts",
+      "line": 82,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "ex*******************************"
+    },
+    {
+      "file": "src/alberta-wallet/resolve.ts",
+      "line": 186,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "va*****************************"
+    },
+    {
+      "file": "src/alberta-wallet/resolve.ts",
+      "line": 212,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "ex*******************************"
+    },
+    {
+      "file": "src/openid-federation/discovery.ts",
+      "line": 11,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "'.**************"
+    },
+    {
+      "file": "src/openid-federation/types.ts",
+      "line": 36,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/openid-federation/types.ts",
+      "line": 39,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/sdjwt/decode.ts",
+      "line": 599,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/sdjwt/decode.ts",
+      "line": 600,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "Ja**********************"
+    },
+    {
+      "file": "src/sdjwt/decode.ts",
+      "line": 603,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "ep***********"
+    },
+    {
+      "file": "src/sdjwt/proof/decode-ckapp.ts",
+      "line": 176,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "CK***********"
+    },
+    {
+      "file": "src/sdjwt/proof/decode-ckapp.ts",
+      "line": 184,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "si*********"
+    },
+    {
+      "file": "src/sdjwt/proof/decode-ckapp.ts",
+      "line": 293,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "**"
+    },
+    {
+      "file": "src/sdjwt/proof/decode-ckapp.ts",
+      "line": 321,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "**"
+    },
+    {
+      "file": "src/sdjwt/proof/decode-ckapp.ts",
+      "line": 322,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "**"
+    },
+    {
+      "file": "src/sdjwt/schema-validator.ts",
+      "line": 7,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "20*****"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 9,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "Ja**********************"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 10,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "75**"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 15,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "20**"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 33,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "76**"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 51,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "75**"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 52,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "Ja**********************"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 67,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 71,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/sdjwt/types.ts",
+      "line": 75,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/shared/noble.ts",
+      "line": 1,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": ".j*"
+    },
+    {
+      "file": "src/shared/test-helpers.ts",
+      "line": 29,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "se*****"
+    },
+    {
+      "file": "src/shared/test-helpers.ts",
+      "line": 122,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "*"
+    },
+    {
+      "file": "src/shared/test-helpers.ts",
+      "line": 137,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "*"
+    },
+    {
+      "file": "src/shared/utilities.ts",
+      "line": 15,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "*"
+    },
+    {
+      "file": "src/shared/utilities.ts",
+      "line": 15,
+      "entity_type": "DATE_TIME",
+      "score": 0.85,
+      "tier": "high_precision",
+      "confidence": "high",
+      "bucket": "needs-review",
+      "redacted": "*"
+    }
+  ]
+}
